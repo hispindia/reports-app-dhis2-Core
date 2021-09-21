@@ -6,6 +6,7 @@ import { ReportComment } from '../../components/TabularReport/ReportComment'
 import ReportLoader from '../../components/ReportLoader'
 import { reportContent } from '../../utils/react/propTypes'
 import HtmlReport from '../standard-report/HtmlReport'
+import { tableToExcel, printContent } from '../../utils/dataSetReport/downloads'
 
 const DataSetReportOutput = props => (
     <ReportLoader content={props.content} isLoading={props.isLoading}>
@@ -15,7 +16,23 @@ const DataSetReportOutput = props => (
                 shareDataSetReportComment={props.shareDataSetReportComment}
                 setDataSetReportComment={props.setDataSetReportComment}
             />
-            <DownloadOptions fileUrls={props.fileUrls} />
+            {/* <DownloadOptions fileUrls={props.fileUrls} /> */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button onClick={() => printContent('html-report-id')}>
+                    Print
+                </button>
+                <button
+                    onClick={() =>
+                        tableToExcel(
+                            'html-report-id',
+                            'dataSetReport',
+                            'dataSetReport.xls'
+                        )
+                    }
+                >
+                    DOWNLOAD AS XLS
+                </button>
+            </div>
             {props.isHtmlReport ? (
                 <HtmlReport html={props.content.data} />
             ) : (
